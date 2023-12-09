@@ -15,6 +15,13 @@ app.use(cors())
 //routes
 readdirSync('./routes').map((route) => app.use('/api/v1', require('./routes/' + route)))
 
+app.get('/', (req, res) => {
+    res.status(200).json
+    ({
+        Message: 'Hello! Welcome to the Leones Tracker API. You can perform CRUD operations on incomes and expenses'
+    })
+})
+
 const server = () => {
     db()
     app.listen(PORT, () => {
