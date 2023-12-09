@@ -1,21 +1,45 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import avatar from '../../img/ceo.png'
+import { FaCamera } from 'react-icons/fa';
 import { signout } from '../../utils/Icons'
 import { menuItems } from '../../utils/menuItems'
 import { useGlobalContext } from '../../context/globalContext';
 
 function Navigation({active, setActive}) {
     const {totalBalance} = useGlobalContext()
+    const [avatar, setAvatar] = useState('../../img/ceo.png');
+    const handleImageChange = () => {
+        // Handle the image change logic, for example, by opening a file input
+        const input = document.createElement('input');
+        input.type = 'file';
+    
+        input.addEventListener('change', (event) => {
+          const file = event.target.files[0];
+    
+          if (file) {
+            const reader = new FileReader();
+    
+            reader.onload = () => {
+              // Update the avatar state with the new image data
+              setAvatar(reader.result);
+            };
+    
+            reader.readAsDataURL(file);
+          }
+        });
+    
+        input.click();
+      };
 
     return (
         <NavStyled>
-            <div className="user-con">
-                <img src={avatar} alt="" />
-                <div className="text">
-                    <h2>John Rowe</h2>
-                    <p>Le{totalBalance()}</p>
-                </div>
+            <div className="user-con" onClick={handleImageChange}>
+                 <img src={avatar} alt='Upload photo' />
+                    <div className="text">
+                     <h2>John Rowe</h2>
+                    
+                <p>Balance: {totalBalance()}</p>
+             </div>
             </div>
             <ul className="menu-items">
                 {menuItems.map((item) => {
